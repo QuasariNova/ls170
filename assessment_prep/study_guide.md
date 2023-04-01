@@ -42,11 +42,69 @@
 ### POST Requests ([Book: Making Requests](https://launchschool.com/books/http/read/making_requests#post))
 
 # Security
-## Have an understanding of various security risks that can affect HTTP, and be able to outline measures that can be used to mitigate against these risks ([Book: Security](https://launchschool.com/books/http/read/processing_responses))
+## Have an understanding of various security risks that can affect HTTP, and be able to outline measures that can be used to mitigate against these risks ([Book: Security](https://launchschool.com/books/http/read/security))
+
+### Session Hijacking
+
+Session Hijacking is where an attacker gets ahold of your session id and uses it to impersonate you to the server.
+
+Countermeasures for it include:
+- Resetting Sessions. Every successful login renders an old session invalid and creates a new one. By forcing authentication when entering any potentially sensitive area, you cut off the jacked session id.
+- Setting an expiration time for sessions. This does not allow an attacker infinite time to pose as the real user.
+- HTTPS
+
+#### HTTPS
+HTTP is inherently unsafe due to it being a text based protocol. All of its data is sent with plaintext and if someone were to use packet sniffing techniques, they can read all the data sent between you and the server.
+
+This is dangerous because if someone got ahold of your session id, they could impersonate you to the server.
+
+Secure HTTP(HTTPS) helps solve session hijacking by using TLS to encrypt every HTTP request/response preventing others from easily reading the data contained.
+
+#### Same-origin policy
+The same-origin policy permits any interaction between resources that come from the same origin, but restricts certain interactions between resources originating from different origins.
+
+An origin is the combination of scheme, host, and port.
+
+This helps prevent websites from attacking each other. This keeps your server from sending importent session information to an origin other than itself.
+
+### Cross-Site Scripting (XSS)
+
+Cross Site scripting is where a server allows users to input HTML or JavaScript that ends up being displayed by the site directly. If the input isn't sanitized, users will be able to inject code into the page contents and the browser will execute it.
+
+Some ways of preventing this are:
+- Sanitize user input by elimanating problematic input, or by disallowing HTML and JavaScript input altogether.
+- Escape all user input data when displaying it. By escaping special characters that would be interpretted as HTML, you prevent the browser from executing it and instead display it as plain text.
 
 ## Be aware of the different services that TLS can provide, and have a broad understanding of each of those services ([The Transport Layer Security (TLS) Protocol](https://launchschool.com/lessons/74f1325b/assignments/83bf156b))
+
+Transport Layer Security is a Session layer protocol used to provide Encryption, Authentication, and Integrity to a TCP connection.
+
 ### Encryption ([TLS Encryption](https://launchschool.com/lessons/74f1325b/assignments/54f6defc))
+
+TLS sets up an encrypted connection by performing a TLS handshake.
+
+1. `ClentHello` message will be sent after TCP `ACK`. This message contains the maximum version of TLS the client can support along with a list of Cipher Suites that the client can use.
+2. The server responds with a `ServerHello` message, which chooses a TLS version and which Cipher Suite to use along with its certificate. It also sends a `ServerHelloDone` marker to indicate that this step is done.
+3. The client will then intiate the key exchange process. It does this by generating a 'pre-master secret', which it then encrypts using the server's public key and sends it to the server. The server decrypts this using its private key.
+4. Both the client and server will use the 'pre-master' secret to generate the same symmetric key using the chosen Cypher Suite.
+5. The client having already sent the `ClientCipherSpec` flag with its `ClientKeyExchange` message, will now receive a message from the server with the `ChangeCipherSpec` and `Finished` flags, which indicate that the TLS Handshake is done.
+6. The client and server now communicate using the symmetric key for encryption.
+
+In short, the TLS handshake agrees which version of TLS to establish a secure connection, agree with which algorithm to use to generate the key, and using the public key of the server communicate the necessary information to generate the symmetric key which will be used to communicate with going forward.
 
 ### Authentication ([TLS Authentication](https://launchschool.com/lessons/74f1325b/assignments/95e698ab))
 
+As part of the TLS handshake, the server will send its certificate. This certificate can be used to authenticate that the client is actually talking to the server it thinks it is.
+
+- The server sends its certificate
+- The server creates a 'signature' which is just some data that is encrypted with the server's private key.
+- The signature is transmitted in a message along with the unencrypted data that was encrypted.
+- The client, decrypts using the public key from the certificate and checks that the data is the same.
+
+Certificates are verified by a signature from a Certificate Authority, which is verified by a Root Certificate Authority. This all works due to Chain of Trust, that only these CAs can sign these certifactes and that they verified the identity of the certificate holder before they issued the certificate.
+
 ### Integrity ([TLS Integrity](https://launchschool.com/lessons/74f1325b/assignments/a88271cf))
+
+TLS provides integrity by providing a Message Authentication Code inside its Protocol Data Unit. The Message Authentication Code is a digest that was created from the data payload prior to encryption. When the client receives the data, after they have decrypted the data they then generate the same digest and check that they are the same.
+
+By doing this it confirms that the message sent was not tampered with as any tampering would generate a different digest.
