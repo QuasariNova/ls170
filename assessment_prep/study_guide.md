@@ -40,6 +40,15 @@ URL must include scheme and host. Path is needed for resources outside of defaul
 
 ## Have an understanding of what URL encoding is and when it might be used ([Book: What is a URL?](https://launchschool.com/books/http/read/what_is_a_url#urlencoding))
 
+URLs only accept certain characters from the 128-character ASCII character set. Reserved or unsafe ASCII characters, as well as characters not in the set, have to be encoded. You do so by replacing the non-conforming characters with a `%` followed by two hexadecimal digits that represent a UTF-8 character.
+
+UTF-8 uses 1-4 bytes to represent every character, so you might need to have up to four `%FF` sequences.
+
+Characters must be encoded if:
+1. They have no corresponding character in the standard ASCII set.
+2. The use of the character is unsafe. `%` is used on other characters, quotation marks, `#`, brackets, and `~` all are unsafe too.
+3. If the character is reserved for special use within the URL. `/`, `?`, `:`, `@`, and `&` are reserved.
+
 # HTTP and the Request/Response Cycle
 ## Be able to explain what HTTP requests and responses are, and identify the components of each ([Book: Making HTTP Requests](https://launchschool.com/books/http/read/making_requests)) ([Book: Processing Responses](https://launchschool.com/books/http/read/processing_responses))
 
@@ -47,12 +56,35 @@ URL must include scheme and host. Path is needed for resources outside of defaul
 
 ## Be able to explain what status codes are, and provide examples of different status code types ([Book: Processing Responses](https://launchschool.com/books/http/read/processing_responses#statuscode))
 
+The `status code` is a three-digit number that the server sends with its response to a request, signifying the status of the request. `status text` is added to the `status code` to provide a description of the code.
+
+| Status Code | Status Text | Meaning |
+|:---:|:---:|:---:|
+| 200 | OK | The request was handled successfully. |
+| 302 | Found | The requested resource has changed temporarily. Usually results in a redirect to another URL. |
+| 404 | Not Found | The requested resource cannot be found. |
+| 500 | Internal Server Error | The server has encountered a generic error. |
+
 ## Understand what is meant by 'state' in the context of the web, and be able to explain some techniques that are used to simulate state ([Book: Stateful Web Applicaitons](https://launchschool.com/books/http/read/statefulness))
+
+HTTP is a stateless protocol. State refers to a website being able to change and remember a users actions.
+
+We can do this by using Sessions, Cookies, and/or Asynchronous JavaScript calls.
+
+### Sessions
+
+### Cookies
+
+### Asynchronous JavaScript calls(AJAX)
 
 ## Explain the difference between GET and POST, and know when to choose each
 ### GET Requests ([Book: Making Requests](https://launchschool.com/books/http/read/making_requests#get))
 
+`GET` requests are used to request resources. Typically, clicking a link on a webpage or typing an address in the address bar of your browser produce `GET` requests.
+
 ### POST Requests ([Book: Making Requests](https://launchschool.com/books/http/read/making_requests#post))
+
+`POST` requests are used to send data to the server or initiate some action on the server.
 
 # Security
 ## Have an understanding of various security risks that can affect HTTP, and be able to outline measures that can be used to mitigate against these risks ([Book: Security](https://launchschool.com/books/http/read/security))
