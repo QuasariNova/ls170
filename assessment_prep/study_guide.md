@@ -23,7 +23,20 @@
 # URLs
 ## Be able to identify the components of a URL, including query strings ([Book: What is a URL?](https://launchschool.com/books/http/read/what_is_a_url)) ([URLs](https://launchschool.com/lessons/cc97deb5/assignments/a28ccb6f))
 
+http://www.example.com:88/home?item=book
+
+The parts of a URL are:
+- The scheme (ex http) indicates the protocol used to access the resource.
+- The host (ex www.example.com) tells the client where the resource is hosted.
+- The port (ex :88), is required if you want to use  aport other than default.
+- The path (ex /home) shows what local resource is being requested.
+- The query string (ex ?item=book) is used to send data to the server.
+
+  Query Parameters are the key value pairs included in the query string(key=value). & is used to separate different key value pairs. URL Encoding is used for characters that are reserved or not ascii
+
 ## Be able to construct a valid URL ([Book: What is a URL?](https://launchschool.com/books/http/read/what_is_a_url)) ([URLs](https://launchschool.com/lessons/cc97deb5/assignments/a28ccb6f))
+
+URL must include scheme and host. Path is needed for resources outside of default and query string is needed for sending data. Finally, the port is only needed if you aren't using the default port for the scheme(html is 80, htmls is 443).
 
 ## Have an understanding of what URL encoding is and when it might be used ([Book: What is a URL?](https://launchschool.com/books/http/read/what_is_a_url#urlencoding))
 
