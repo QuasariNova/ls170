@@ -82,9 +82,13 @@ We can do this by using Sessions, Cookies, and/or Asynchronous JavaScript calls.
 
 `GET` requests are used to request resources. Typically, clicking a link on a webpage or typing an address in the address bar of your browser produce `GET` requests.
 
+`GET /tiger.html HTTP/1.1`
+
 ### POST Requests ([Book: Making Requests](https://launchschool.com/books/http/read/making_requests#post))
 
 `POST` requests are used to send data to the server or initiate some action on the server.
+
+`POST /new_player HTTP/1.1` Would have info in body of request.
 
 # Security
 ## Have an understanding of various security risks that can affect HTTP, and be able to outline measures that can be used to mitigate against these risks ([Book: Security](https://launchschool.com/books/http/read/security))
