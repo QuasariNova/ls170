@@ -1,15 +1,62 @@
 # The Internet
 ## Have a broad understanding of what the internet is and how it works ([What is the Internet?](https://launchschool.com/lessons/4af196b9/assignments/268243e5)) ([Protocols](https://launchschool.com/lessons/4af196b9/assignments/a53e65ce)) ([A Layered System](https://launchschool.com/lessons/4af196b9/assignments/21ef33af))
 
+The internet is a "network of networks." Any number of devices that are connected to communicate or exchange data is a network and the internet is a large amount of localized networks that use a series of routers to communicate with each other.
+
+The internet itself is the infrastructure that makes up these networks and their interconnections along with the protocols they use to communicate.
+
+The internet works by using a series of conceptual "layers" operating on top of one another. Each layer, from the physical devices all the way up to specific application protocols, facilitates a different part of network communication. Each layer itself having its own unit of data, or protocol data unit. Lower levels encapsulate higher levels data in their own protocol data unit.
+
 ## Understand the characteristics of the physical network, such as latency and bandwidth ([The Physical Network](https://launchschool.com/lessons/4af196b9/assignments/097d7577))
+
+At the lowest level, we have the physical means of transmitting the data. This is your network cards, your wires, radio waves, light, etc... How the signal is made up is dependant on the medium of which it travels.
+
+The characteristics of the physical network are latency and bandwidth, which come from the physical limitations of the infrastructure it self.
+
+- Latency is the measure of time for data to get from one point to another. In otherwords it is a measure of delay.
+  - Propagation delay - the time it takes for a message to travel from the sender to the recipient.
+  - Transmission delay - the time it takes to push a message into its medium. So like transmit into the air with wifi, or the entire electrical signal being made in a wire.
+  - Processing delay - the time it takes a router to process the packet header.
+  - Queuing delay - The time data waits in a buffer until data can be processed.
+  - Last-mile latency - the majority of the above delays happen at the network edges, where data is transmitted from the ISP to the local network as there are more frequent and shorter hops.
+  -Round-trip Time(RTT) - The length of the time from the signal being sent to the acknoledgement of receipt being received.
+- Bandwidth is the amount of data that can be sent along the physical infrastructure of a network for a particular unit of time.
+  - Typically, bandwidth for a connection is the lowest amount along all hops over the entire connection.
 
 ## Have a basic understanding of how lower level protocols operate ([A Layered System](https://launchschool.com/lessons/4af196b9/assignments/21ef33af))
 ### Ethernet ([The Link/ Data Link Layer](https://launchschool.com/lessons/4af196b9/assignments/81df3782))
 ### IP ([The Internet/ Network Layer](https://launchschool.com/lessons/4af196b9/assignments/b222ecfb))
 
+- Data Link/Link Layer - The datalink layer uses Ethernet as its protocol and is intended for local area network communication
+  - Ethernet's Protocol Data Unit is frames.
+  - Ethernet uses Multimedia Access Control(MAC) Addresses, which are burnt into the physical network adapter, which are a sequence of six two-digit hex numbers. Each MAC address should be unique.
+  - Ethernet uses the MAC address of the sender and the receiver to send data over a local area network.
+  - Is impractical for inter-network communication as MAC addressing is physical and does not follow a logical heirarchy, thus cant be broken down into sub-divisions.
+  - A Frame encapsulates a Packet
+- Network/Internet Layer - The Network layer uses the Internet Protocol(IP) as its protocol and is intended for inter-network communication.
+  - IP uses a PDU called an IP Packet.
+  - Packets have a header and a data payload.
+  - Packets data payload usually encapsulates a TCP fragment or a UDP datagram.
+  - Packet headers include some fields like Version, TTL, Protocol, Checksum, the Source Address, and IP address. It also has ID, Flags, and Fragment Offset for fragmenting large packets into multiple smaller ones to be reassembled at the destination.
+  - IP uses IP addresses for addressing. IP addresses are unique, logical, and heirarchical.
+  - Routers route IPs between networks by referencing routing tables.
+
 ## Know what an IP address is and what a port number is ([The Internet/ Network Layer](https://launchschool.com/lessons/4af196b9/assignments/b222ecfb)) ([Communication Between Processes](https://launchschool.com/lessons/2a6c7439/assignments/41113e98))
 
+IP addresses are used by the Internet Protocol in order to address inter-network communication. They come in two flavors:
+- IPv4 addresses are 32 bits in length and have four sections with numbers ranging from `0` to `255`. `192.168.1.0` is a network address, `192.168.1.255` is a broadcast address, while everything in between can be a device address.
+- IPv6 has 128-bit addresses(eight 16 bit blocks). They are typically written with 8 blocks of four hexadecimal numbers. `2001:db8:3333:4444:5555:6666:7777:8888`
+
+Port numbers are used by Transport layer protocols such TCP or UDP. Port numbers are an implementation of multiplexing, which tells the device which application the data received is for.
+- 0-1023 = well-known ports.
+- 1024-49151 = registered ports.
+- 49152 - 65535 = dynamic or private ports, typically used for allocation on client as ephemeral ports.
+
+If you have both an IP address and a port number, you have a socket. A socket is a communication end-point.
+
 ## Have an understanding of how DNS works ([Book: Background](https://launchschool.com/books/http/read/background#howtheinternetworks))
+
+Domain Name System(DNS) is responsible for converting domain names to an IP address using a distributed database. Your client will consult a DNS when it needs to send data to a domain name and the DNS will give the client the IP tied to that domain name.
 
 ## Understand the client-server model of web interactions, and the role of HTTP as a protocol within that model ([Some Background and Diagrams](https://launchschool.com/lessons/cc97deb5/assignments/586769d9))
 
