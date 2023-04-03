@@ -192,9 +192,19 @@ We can do this by using Sessions, Cookies, and/or Asynchronous JavaScript calls.
 
 ### Sessions
 
+The server is able to send a session identifier to the client. This allows the client to send it back to the server during a request to maintain a sense of persistent connection between requests.
+
+By using session identifiers it forces the server to inspect every request to see if a session id was included, if so it must also check if it is valid. The server also needs to retrieve session data based on the id as well as recreate the state from the data to send back as a response. This gives some overhead on processing requests, especially those with `session id`s.
+
 ### Cookies
 
+Cookies are pieces of data that are sent from the server and stored on the client side. Cookies are compared with the server side session data to identify the current session. Cookies are how `session id`s are stored client side.
+
+Cookies are set with the `set-cookie` response header.
+
 ### Asynchronous JavaScript calls(AJAX)
+
+Asynchronous JavaScript and XML calls allow browsers to update parts of a web page without having to request the whole page each time. With AJAX, responses are processed by some callback. This is all usually done via some client-side JavaScript code.
 
 ## Explain the difference between GET and POST, and know when to choose each
 ### GET Requests ([Book: Making Requests](https://launchschool.com/books/http/read/making_requests#get))
