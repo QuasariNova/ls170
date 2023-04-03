@@ -58,14 +58,55 @@ If you have both an IP address and a port number, you have a socket. A socket is
 
 Domain Name System(DNS) is responsible for converting domain names to an IP address using a distributed database. Your client will consult a DNS when it needs to send data to a domain name and the DNS will give the client the IP tied to that domain name.
 
+A device will cache DNS results in its DNS Cache.
+
 ## Understand the client-server model of web interactions, and the role of HTTP as a protocol within that model ([Some Background and Diagrams](https://launchschool.com/lessons/cc97deb5/assignments/586769d9))
+
+In the client-server model, you have a client which will reach out and make requests of a server. The server is capable of receiving these requests and responding as needed.
+
+- Web Server - serves staic resources
+- Application Server - handles more complicated requests that require data processing.
+- Data store - Storage construct that can save data for later retrieval and process.
 
 # TCP & UDP
 ## Have a clear understanding of the TCP and UDP protocols, their similarities and differences ([Transmission Control Protocol (TCP)](https://launchschool.com/lessons/2a6c7439/assignments/d09ddd52)) ([User Datagram Protocol (UDP)](https://launchschool.com/lessons/2a6c7439/assignments/9bb82c9b))
 
+- Transmission Control Protocol (TCP)
+  - PDU is a Segment
+  - Connection-oriented protocol
+  - Establishes connection through the Three-way Handshake
+    - Sender sends `SYN` segment
+    - Receiver receives `SYN` and sends back `SYN ACK`
+    - Sender receives `SYN ACK` and sends `ACK`
+  - Provides reliability by In-order Delivery, error detection, and message acknowledgement and retransmission.
+    - Each segment has a sequence number and acknowledgement number in its header in order to know what segments weren't received so that it can retransmit them.
+    - Also has a checksum in the header for error detection
+  - Provides Congestion Avoidance by using data loss as a feedback to avoid congestion and reduce the size of the transmission window.
+  - Provides Flow Control by using the window field of the TCP header and defining a buffer size. This allows a sender to not overwhelm the receiver.
+  - Latency overhead due to handshake process
+  - Head-of-line blocking due to in-order delivery slowing connection when a segment is missing and needs retransmitted. Leads to queuing delay.
+- User Datagram Protocol (UDP)
+  - PDU is a Datagram
+  - Connectionless protocol
+  - Very simple header, just includes ports, checksum, and length.
+  - Speed and flexibility is its main positives.
+  - Does nothing about reliability by itself.
+  - Great for applications that don't require reliability to be stable.
+
+
 ## Have a broad understanding of the three-way handshake and its purpose ([Transmission Control Protocol (TCP)](https://launchschool.com/lessons/2a6c7439/assignments/d09ddd52))
 
+- Sender sends `SYN` segment
+- Receiver receives `SYN` and sends back `SYN ACK`
+- Sender receives `SYN ACK` and sends `ACK`
+
+The handshake ensures both the sender and receiver can reach each other and establishes the connection. The sender can't send any application specific data until it sends its `ACK`, so there is round-trip latency which provides overhead. This gives them baseline in which they can now communicate and ensure each segment are delivered in order.
+
 ## Have a broad understanding of flow control and congestion avoidance ([Transmission Control Protocol (TCP)](https://launchschool.com/lessons/2a6c7439/assignments/d09ddd52))
+
+Flow Control is a technique created to prevent a sender from overwhelming the receiver with data. It is implemented by the receiver telling the sender how much data it can handle in a particular time-frame through the use of a buffer.
+
+Congestion Avoidance is a technique that is used to prevent overwheming a network. It is implemented in TCP by detecting how much data has been lost and adjusting the transmission window based on that data. The higher the loss, the lower the window, thus the less data transmitted at one time.
 
 # URLs
 ## Be able to identify the components of a URL, including query strings ([Book: What is a URL?](https://launchschool.com/books/http/read/what_is_a_url)) ([URLs](https://launchschool.com/lessons/cc97deb5/assignments/a28ccb6f))
@@ -99,7 +140,38 @@ Characters must be encoded if:
 # HTTP and the Request/Response Cycle
 ## Be able to explain what HTTP requests and responses are, and identify the components of each ([Book: Making HTTP Requests](https://launchschool.com/books/http/read/making_requests)) ([Book: Processing Responses](https://launchschool.com/books/http/read/processing_responses))
 
+- HTTP Request is a text-based message sent from a client to a server in order to request something from a server, typically access to a resource
+  - Request line
+    - Method - what kind of request (EX: `GET` or `POST`)
+    - Path - Path to resource
+    - Version - version of HTTP to use
+  - Headers
+    - host (added in HTTP 1.1) denotes which host the request is being made for
+    - `session id`, `keep-alive`, languages, etc...
+  - Optional Body
+    - Depends on the method
+    - With `POST` it is the data being sent to server.
+- HTTP Response is a text-based message sent from a server to a client that responds to a clients request.
+  - Response line
+    - Status Code - three digit number telling status of the request
+    - Status Text - Short description of the status of the request
+    - Version - HTTP Version of response
+  - Optional Headers
+    - encoding
+    - name of server
+    - redirect? using `Location` header with a `302` status
+    - `content-type`
+    - `content-length`
+  - Optional Body contains the raw data from the requested resource
+
 ## Be able to describe the HTTP request/response cycle ([Book: Making HTTP Requests](https://launchschool.com/books/http/read/making_requests)) ([Book: Processing Responses](https://launchschool.com/books/http/read/processing_responses)) ([The Request Response Cycle](https://launchschool.com/lessons/cc97deb5/assignments/83ae67aa))
+
+The HTTP Request/Response cycle describes the process in which a client requests something from a server and the server responds to the request made by the client.
+
+1. Client makes a HTTP Request
+2. Server processes the request, verifying session, loading any data and running any necessary code, etc...
+3. Server sends HTTP Response
+4. Client processes response. A browser would display it.
 
 ## Be able to explain what status codes are, and provide examples of different status code types ([Book: Processing Responses](https://launchschool.com/books/http/read/processing_responses#statuscode))
 
